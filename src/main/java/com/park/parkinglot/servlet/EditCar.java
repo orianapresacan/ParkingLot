@@ -92,14 +92,13 @@ public class EditCar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String licensePlate=request.getParameter("license_plate");
+         String licensePlate=request.getParameter("license_plate");
         String parkingSpot=request.getParameter("parking_spot");
-        int userId=Integer.parseInt(request.getParameter("owner_Id"));
+        int userId=Integer.parseInt(request.getParameter("owner_id"));
         int carId=Integer.parseInt(request.getParameter("car_id"));
-        
-        carBean.updateCar(carId, licensePlate, parkingSpot, userId);
-        response.sendRedirect(request.getContextPath()+"/Cars");
-      //  processRequest(request, response);
+        carBean.updateCar(carId,licensePlate,parkingSpot,userId);
+        response.sendRedirect(request.getContextPath()+ "/Cars");
+       // processRequest(request, response);
     }
 
     /**

@@ -64,7 +64,7 @@ public CarDetails findById(Integer carId) {
         car.setParkingSpot(parkingSpot);
 
         User user=em.find(User.class,userId);
-        user.getCars().add(car);
+        user.getcars().add(car);
         car.setUser(user);
 
         em.persist(car);
