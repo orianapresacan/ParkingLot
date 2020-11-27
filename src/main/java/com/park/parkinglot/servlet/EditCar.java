@@ -31,6 +31,7 @@ public class EditCar extends HttpServlet {
      
      @Inject
      CarBean carBean;
+     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
