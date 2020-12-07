@@ -3,22 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.park.parkinglot.servlet;
+package com.park.parkinglot.servlet.car;
 
+import java.util.ArrayList;
+import com.park.parkinglot.common.CarDetails;
+import com.park.parkinglot.ejb.CarBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.HttpMethodConstraint;
+import javax.servlet.annotation.ServletSecurity;
+import javax.annotation.security.*;
 
 /**
  *
  * @author Oriana
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@DeclareRoles({"AdminRole", "ClientRole"})
+@ServletSecurity(
+        value = @HttpConstraint(
+                rolesAllowed = {"AdminRole"}
+        )
+)
+
+@WebServlet(name = "Cars", urlPatterns = {"/Cars"})
+public class Cars extends HttpServlet {
+
+    @Inject
+    private CarBean carBean;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,10 +47,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");
+            out.println("<title>Servlet Cars</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Cars at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -49,7 +68,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        List<CarDetails> cars = carBean.getAllCars();
+        request.setAttribute("cars", cars);
+        request.setAttribute("numberOfFreeParkingSpots", 10);
+        request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request, response);
+
     }
 
     /**
@@ -63,8 +86,15 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("message", "Username or password incorrect");
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        String[] carIdsAsString = request.getParameterValues("car_ids");
+        if (carIdsAsString != null) {
+            List<Integer> carIds = new ArrayList<>();
+            for (String carIdAsString : carIdsAsString) {
+                carIds.add(Integer.parseInt(carIdAsString));
+            }
+            carBean.deleteCarsByIds(carIds);
+        }
+        response.sendRedirect(request.getContextPath() + "/Cars");
     }
 
     /**
@@ -74,7 +104,7 @@ public class Login extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Login";
+        return "Cars";
     }// </editor-fold>
 
 }

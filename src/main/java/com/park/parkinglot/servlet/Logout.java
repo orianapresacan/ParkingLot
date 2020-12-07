@@ -20,15 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,7 +28,7 @@ public class Logout extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Logout</title>");            
+            out.println("<title>Servlet Logout</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Logout at " + request.getContextPath() + "</h1>");
@@ -58,8 +49,8 @@ public class Logout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.logout();
-       response.sendRedirect(request.getContextPath());
+        request.logout();
+        response.sendRedirect(request.getContextPath());
     }
 
     /**
@@ -83,7 +74,7 @@ public class Logout extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Logout";
     }// </editor-fold>
 
 }

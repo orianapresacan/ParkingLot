@@ -3,51 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.park.parkinglot.servlet;
+package com.park.parkinglot.servlet.user;
 
-import java.util.ArrayList;
 import com.park.parkinglot.common.CarDetails;
+import com.park.parkinglot.common.UserDetails;
 import com.park.parkinglot.ejb.CarBean;
+import com.park.parkinglot.ejb.UserBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.HttpMethodConstraint;
-import javax.servlet.annotation.ServletSecurity;
-import javax.annotation.security.*;
 
 /**
  *
  * @author Oriana
  */
-@DeclareRoles({"AdminRole", "ClientRole"})
-@ServletSecurity(
-        value = @HttpConstraint(
-                rolesAllowed = {"AdminRole"}
-        )
-)
-
-@WebServlet(name = "Cars", urlPatterns = {"/Cars"})
-public class Cars extends HttpServlet {
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"AdminRole", "ClientRole"}))
+@WebServlet(name = "Users", urlPatterns = {"/Users"})
+public class Users extends HttpServlet {
 
     @Inject
-    private CarBean carBean;
+    private UserBean userBean;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -77,10 +61,10 @@ public class Cars extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<CarDetails> cars = carBean.getAllCars();
-        request.setAttribute("cars", cars);
-        request.setAttribute("numberOfFreeParkingSpots", 10);
-        request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request, response);
+        List<UserDetails> users = userBean.getAllUsers();
+        request.setAttribute("users", users);
+        request.setAttribute("numberOfAdmins", 1);
+        request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
 
     }
 
@@ -95,15 +79,7 @@ public class Cars extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] carIdsAsString = request.getParameterValues("car_ids");
-        if(carIdsAsString != null){
-            List<Integer> carIds = new ArrayList<>();
-            for(String carIdAsString : carIdsAsString){
-                carIds.add(Integer.parseInt(carIdAsString));
-            }
-            carBean.deleteCarsByIds(carIds);
-        }
-        response.sendRedirect (request.getContextPath()+"/Cars");
+        processRequest(request, response);
     }
 
     /**
@@ -113,7 +89,7 @@ public class Cars extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Users";
     }// </editor-fold>
 
 }
