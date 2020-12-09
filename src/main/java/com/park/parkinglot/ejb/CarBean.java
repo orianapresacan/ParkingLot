@@ -32,7 +32,7 @@ public class CarBean {
 
 public CarDetails findById(Integer carId) {
     Car car=em.find(Car.class, carId);
-    return new CarDetails(car.getId(), car.getLicensePlate(), car.getParkingSpot(), car.getUser().getusername());
+    return new CarDetails(car.getId(), car.getLicensePlate(), car.getParkingSpot(), car.getUser().getUsername());
 }
 
     private List<CarDetails> copyCarsToDetails(List<Car> cars) {
@@ -41,7 +41,7 @@ public CarDetails findById(Integer carId) {
             CarDetails carDetails = new CarDetails(car.getId(),
                     car.getLicensePlate(),
                     car.getParkingSpot(),
-                    car.getUser().getusername());
+                    car.getUser().getUsername());
             detailList.add(carDetails);
         }
         return detailList;

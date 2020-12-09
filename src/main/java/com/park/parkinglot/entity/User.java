@@ -7,15 +7,14 @@ package com.park.parkinglot.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -23,6 +22,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @Table(name="USERS")
+@XmlRootElement
 public class User implements Serializable {
     
 
@@ -37,7 +37,10 @@ public class User implements Serializable {
     private String password;
     
     private String position;
+    
+    @JsonbTransient
     @OneToMany(mappedBy="User")
+    
     private Collection<Car> cars;
 
     public Integer getId() {
@@ -46,28 +49,28 @@ public class User implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getusername() {
+    public String getUsername() {
         return username;
     }
-    public void setusername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
-    public String getpassword() {
+    public String getPassword() {
         return password;
     }
-    public void setpassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
-    public String getposition() {
+    public String getPosition() {
         return position;
     }
-    public void setpositions(String position) {
+    public void setPosition(String position) {
         this.position = position;
     }
     public Collection getcars() {
