@@ -4,7 +4,7 @@
 
 <t:pageTemplate pageTitle="Login">
     <c:if test="${message != null}">
-        <div class=""alert alert-warning" role=""alert">
+        <div class="alert alert-warning" role="alert">
             ${message}
         </div>
     </c:if>

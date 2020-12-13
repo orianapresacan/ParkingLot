@@ -22,6 +22,12 @@
             <div class="col-md-3">
                 ${car.username}
             </div>
+            <div class="col-md-1"
+                 <img src="${pageContext.request.contextPath}/Cars/Photos?id=${car.id}" width="48"/>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/Cars/AddPhoto?id=${car.id}" role="button">Add photo </button> </a>
+            </div>
             <div class="col-md-2">
                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/Cars/Update?id=${car.id}" role="button">Edit Car</button> </a>
             </div>
